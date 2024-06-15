@@ -1,8 +1,7 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
-import Browser.Dom exposing (Error(..))
-import Html exposing (Html, button, div, i, text)
+import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Html.Events.Extra.Touch as Touch
@@ -67,9 +66,11 @@ update msg model =
 
                                 Just x ->
                                     let
+                                        xString : String
                                         xString =
                                             String.fromFloat x
 
+                                        xStringWithDecimal : String
                                         xStringWithDecimal =
                                             xString
                                                 ++ (if model.decimalPressed && not (String.contains "." xString) then
@@ -79,6 +80,7 @@ update msg model =
                                                         ""
                                                    )
 
+                                        newString : String
                                         newString =
                                             xStringWithDecimal ++ String.fromInt i
                                     in
@@ -93,6 +95,7 @@ update msg model =
 
         PressedEqual ->
             let
+                res : Maybe Float
                 res =
                     case ( model.operator, model.xReg, model.yReg ) of
                         ( Nothing, _, _ ) ->
@@ -149,6 +152,7 @@ view model =
 display : Model -> Html Msg
 display model =
     let
+        regDisplay : String
         regDisplay =
             case ( model.error, model.xReg ) of
                 ( Just e, _ ) ->
@@ -156,9 +160,11 @@ display model =
 
                 ( Nothing, Just x ) ->
                     let
+                        xDisp : String
                         xDisp =
                             String.fromFloat x
 
+                        split : List String
                         split =
                             String.split "." xDisp
 
@@ -173,8 +179,10 @@ display model =
                                 _ ->
                                     ( "", "" )
 
+                        beforeDecimalFormatted : String
                         beforeDecimalFormatted =
                             let
+                                beforeDecimalNumber : Int
                                 beforeDecimalNumber =
                                     String.length beforeDecimal
                             in
@@ -229,6 +237,7 @@ display model =
                 ( Nothing, Nothing ) ->
                     "0"
 
+        regDisplayLen : Int
         regDisplayLen =
             String.length regDisplay
     in
@@ -313,7 +322,7 @@ keyAC model =
 
 
 keyEqual : Model -> Html Msg
-keyEqual model =
+keyEqual _ =
     button
         [ class "bg-gray-300 text-black text-2xl py-4 px-4 size-20 rounded-full"
         , Touch.onStart (\_ -> PressedEqual)
@@ -334,6 +343,7 @@ keyDecimal =
 keyOp : Model -> Operator -> Html Msg
 keyOp model op =
     let
+        buttonColor : String
         buttonColor =
             case model.operator of
                 Nothing ->
@@ -365,13 +375,3 @@ keyOp model op =
                 Subtract ->
                     "-"
         ]
-
-
-divide : String
-divide =
-    "÷"
-
-
-plusOrMinus : String
-plusOrMinus =
-    "±"
