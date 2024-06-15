@@ -3,6 +3,9 @@ elm-stuff/
 dist/
 build/
 
+# Parcel cache
+.parcel-cache
+
 # Node modules
 node_modules/
 

@@ -1,4 +1,3 @@
-// Description: This file is the entry point for the Elm application.
-const app = Elm.Main.init({
-    node: document.getElementById("root"),
-});
+import { Elm } from "./src/Main.elm";
+
+Elm.Main.init({ node: document.getElementById("root") });
